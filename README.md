@@ -2,20 +2,20 @@
 motion password
 
 
-PythonRunner
-Java code for "setMotion.py" execution
+PythonRunner<br>
+Java code for "setMotion.py" execution<br><br>
 
-PythonRunner2
-Java code for "trainMotion.py" execution
+PythonRunner2<br>
+Java code for "trainMotion.py" execution<br><br>
 
-PythonRunner3
-Java code for "testMotion.py" execution
+PythonRunner3<br>
+Java code for "testMotion.py" execution<br><br>
 
-setMotion
-Set motions for "first, second, third"
+setMotion<br>
+Set motions for "first, second, third"<br><br>
 
-trainMotion
-Train 3 motions and make model
+trainMotion<br>
+Train 3 motions and make model<br><br>
 
-testMotion
-Check if the user made one of the three actions
+testMotion<br>
+Check if the user made one of the three actions<br><br>
