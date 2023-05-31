@@ -3,10 +3,10 @@ import os
 import sys
 
 # parameter (docName)
-#docName = sys.argv[1]
+docName = sys.argv[1]
 
 
-docName = "testDoc3"
+# docName = "testDoc3"
 
 os.environ['CUDA_VISIBLE_DEVICES'] = '1'
 os.environ['TF_FORCE_GPU_ALLOW_GROWTH'] = 'true'
@@ -26,8 +26,6 @@ data = np.concatenate([
 
 # print data shape
 # data.shape
-
-
 
 # make x data witout last value(label)
 x_data = data[:, :, :-1]
@@ -63,7 +61,6 @@ x_train, x_val, y_train, y_val = train_test_split(x_data, y_data, test_size=0.1,
 # print(x_val.shape, y_val.shape)
 
 
-
 # model
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import LSTM, Dense
@@ -80,7 +77,7 @@ model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['acc']
 
 
 
-# learning
+# learning, 이 과정에서 오래 걸리는 듯
 from tensorflow.keras.callbacks import ModelCheckpoint, ReduceLROnPlateau
 
 # learning with model.fit, 200 epochs. save accurate model

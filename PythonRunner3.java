@@ -1,12 +1,18 @@
 import java.io.*;
 
-// [3] test Motion
-// docName, action 전달하면 docName으로 해당 모델 찾고 action인지 유사도 검사 후 결과 반환 (true - 동작 수행함, false - 시간 초과(동작 수행x)
+// [3] 
+// 손동작 암호 해제 <testMotion.py>
+// docName, action 전달 -> true/false 여부 리턴
+
+// action을 first, second, third로 바꿔가면서 총 3번 testMotion.py 열어야함
+// docName으로 모델 찾고, 해당 모델로 동작 판단
+// 파라미터로 받은 액션 수행 시 true 반환. 30초 안에 액션 수행 안했다고 판단하면 false 반환
+
 public class PythonRunner3 {
     public static void main(String[] args) throws IOException, InterruptedException {
         // parameters : document name
-        String docName = "testDoc";
-        String action = "first";
+        String docName = "test9020";
+        String action = "test";
 
         // activate anaconda virtual environment, execute python file
         ProcessBuilder pb = new ProcessBuilder();

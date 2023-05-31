@@ -19,7 +19,7 @@ action = sys.argv[2]
 # seq_length
 seq_length = 90
 # recoding time
-motion_time = 20
+motion_time = 15
 
 
 # MediaPipe hands model
@@ -93,7 +93,7 @@ while camera.isOpened():
                 # show landmarks
                 mp_drawing.draw_landmarks(img, res, mp_hands.HAND_CONNECTIONS)
                 
-        # cv2.imshow('motion recognition', img)
+        # cv2.imshow('img', img)
         
     # data -> numpy array
     data = np.array(data)
@@ -112,14 +112,10 @@ while camera.isOpened():
     full_seq_data = np.array(full_seq_data)
     # print(full_seq_data.shape)
     
-    
-    # shape example -> (270, 90, 100) -> (270개의 시퀀스, 각 시퀀스는 90프레임으로 구성, 각 프레임은 100개의 특성 값)
-    if full_seq_data.shape[0] <= 300:
-        print("false")
-        # print("false", docName, action, full_seq_data.shape)
+    if full_seq_data.shape[0] <= 200:
+        print("false", docName, action, full_seq_data.shape)
     else:
-        print("true")
-        # print("true", docName, action, full_seq_data.shape)
+        print("true", docName, action, full_seq_data.shape)
     
     # save data in dataset folder (full_seq_data array)
     np.save(os.path.join('dataset', f'seq_{docName}_{action}'), full_seq_data)
