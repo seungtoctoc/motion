@@ -11,8 +11,8 @@ import java.io.*;
 public class PythonRunner3 {
     public static void main(String[] args) throws IOException, InterruptedException {
         // parameters : document name
-        String docName = "test9020";
-        String action = "test";
+        String docName = "final";
+        String action = "third";
 
         // activate anaconda virtual environment, execute python file
         ProcessBuilder pb = new ProcessBuilder();

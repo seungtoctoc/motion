@@ -13,7 +13,7 @@ public class PythonRunner2 {
     public static void main(String[] args) throws IOException, InterruptedException {
         // parameters : document name
         // 학습에서 손동작 데이터를 정해진 위치에 저장하고 학습에도 그 경로 이용해서 문서 이름만 파라미터로 전달하면 됨!
-        String docName = "test9020";
+        String docName = "final2";
 
         // activate anaconda virtual environment, execute python file
         ProcessBuilder pb = new ProcessBuilder();

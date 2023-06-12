@@ -9,17 +9,17 @@ docName = sys.argv[1]
 target_action = sys.argv[2]
 
 
-# docName = "testDoc3"
-# target_action = "nonee"
+# docName = "final2"
+# target_action = "test"
 
 
 # setting value
 workTime = 30
 seq_length = 90
-judgment_confidence = 0.95
+judgment_confidence = 0.97
 
 
-# more than threshold in windowSize -> did
+# more than threshold in windowSize -> did that action
 action_window_size = 30 
 action_threshold = 25  
 
@@ -50,8 +50,8 @@ start_time = cv2.getTickCount()
 while cap.isOpened():
     # read camera
     ret, img = cap.read()
-
-
+    
+    
     # image processing
     img = cv2.flip(img, 1)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
@@ -88,6 +88,7 @@ while cap.isOpened():
             d = np.concatenate([joint.flatten(), angle])
 
             seq.append(d)
+
 
             # show landmarks
             # mp_drawing.draw_landmarks(img, res, mp_hands.HAND_CONNECTIONS)
@@ -139,11 +140,12 @@ while cap.isOpened():
                 break
             
                 
-            
             # cv2.putText(img, f'{this_action.upper()}', org=(int(res.landmark[0].x * img.shape[1]), int(res.landmark[0].y * img.shape[0] + 20)), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=1, color=(255, 255, 255), thickness=2)
 
 
     # cv2.imshow('motion recognition', img)
+    # if cv2.waitKey(1) == ord('q'):
+    #     break
     
     
     # did action
@@ -157,3 +159,6 @@ while cap.isOpened():
     if elapsed_time >= workTime:
         print("false")
         break
+    
+    
+    

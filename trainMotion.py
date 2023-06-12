@@ -14,11 +14,15 @@ docName = sys.argv[1]
 
 
 # test
-# docName = "testDoc3"
+# docName = "final2"
 
 
 os.environ['CUDA_VISIBLE_DEVICES'] = '1'
 os.environ['TF_FORCE_GPU_ALLOW_GROWTH'] = 'true'
+
+
+# make folder 'models'
+os.makedirs('models', exist_ok=True)
 
 
 actions = [

@@ -35,8 +35,8 @@ hands = mp_hands.Hands(
 created_time = int(time.time())
 
 
-# making folder 'dataset'
-# os.makedirs('dataset', exist_ok=True)
+# make folder 'dataset'
+os.makedirs('dataset', exist_ok=True)
 
 
 camera = cv2.VideoCapture(0)
@@ -45,8 +45,6 @@ while camera.isOpened():
     # data array
     data = []
     
-    # waiting 2s
-    cv2.waitKey(2000)
     
     # init time
     start_time = time.time()
@@ -54,7 +52,9 @@ while camera.isOpened():
     # imshow for test
     # ret, img = camera.read()
     # img = cv2.flip(img, 1)
-    # cv2.imshow('img', img)
+    # cv2.imshow('motion recognition', img)
+    # if cv2.waitKey(1) == ord('q'):
+    #     break
 
 
     while time.time() - start_time < motion_time:
