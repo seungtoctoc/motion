@@ -4,19 +4,19 @@ import numpy as np
 import time, os
 import sys
 
-camera = cv2.VideoCapture(0)
 
 # parameter (docName, action)
 docName = sys.argv[1]
 action = sys.argv[2]
 
+
+# test
 # docName = "testDoc2"
 # action = "third"
-
-
-# check parameters
 # print("docName and Action : ", docName, action)
-# seq_length
+
+
+# sequence length
 seq_length = 90
 # recoding time
 motion_time = 20
@@ -30,17 +30,24 @@ hands = mp_hands.Hands(
     min_detection_confidence=0.5,
     min_tracking_confidence=0.5)
 
+
 # timer
 created_time = int(time.time())
+
 
 # making folder 'dataset'
 # os.makedirs('dataset', exist_ok=True)
 
+
+camera = cv2.VideoCapture(0)
+
 while camera.isOpened():
     # data array
     data = []
+    
     # waiting 2s
     cv2.waitKey(2000)
+    
     # init time
     start_time = time.time()
 
@@ -49,61 +56,59 @@ while camera.isOpened():
     # img = cv2.flip(img, 1)
     # cv2.imshow('img', img)
 
+
     while time.time() - start_time < motion_time:
+        # read camera
         ret, img = camera.read()
+        
+        
+        # image processing
         img = cv2.flip(img, 1)
-        # change color
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-        # put motion to mediapipe
         result = hands.process(img)
-        # change color
         img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
         
-        # if hand recognition
+        
+        # hand motion extraction
         if result.multi_hand_landmarks is not None:
             for res in result.multi_hand_landmarks:
                 joint = np.zeros((21, 4))
                 for j, lm in enumerate(res.landmark):
-                    # check for x, y, z, visbility
+                    # x, y, z, visbility data of hand
                     joint[j] = [lm.x, lm.y, lm.z, lm.visibility]
 
-                # angles between joints
-                v1 = joint[[0,1,2,3,0,5,6,7,0,9,10,11,0,13,14,15,0,17,18,19], :3] # Parent joint
-                v2 = joint[[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20], :3] # Child joint
+               # compute angles between joints
+                v1 = joint[[0,1,2,3,0,5,6,7,0,9,10,11,0,13,14,15,0,17,18,19], :3] # parent joint
+                v2 = joint[[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20], :3] # child joint
                 v = v2 - v1 # [20, 3]
                 
-                # Normalize v
+                # normalize v
                 v = v / np.linalg.norm(v, axis=1)[:, np.newaxis]
                 
-                # Get angle using arcos of dot product
+                # get angles
                 angle = np.arccos(np.einsum('nt,nt->n',
                     v[[0,1,2,4,5,6,8,9,10,12,13,14,16,17,18],:], 
                     v[[1,2,3,5,6,7,9,10,11,13,14,15,17,18,19],:])) # [15,]
-                angle = np.degrees(angle) # Convert radian to degree
+                angle = np.degrees(angle) # convert radian to degree
 
-                # put label, idx = index of actions
+                # put label (action name)
                 angle_label = np.array([angle], dtype=np.float32)
                 angle_label = np.append(angle_label, action)
 
-                # concatenate joint(x, y, z, visibility) -> matrix (100 size)
+                # concatenate joint(x, y, z, visibility) -> matrix
                 d = np.concatenate([joint.flatten(), angle_label])
 
                 data.append(d)
 
                 # show landmarks
-                mp_drawing.draw_landmarks(img, res, mp_hands.HAND_CONNECTIONS)
+                # mp_drawing.draw_landmarks(img, res, mp_hands.HAND_CONNECTIONS)
                 
         # cv2.imshow('motion recognition', img)
         
     # data -> numpy array
     data = np.array(data)
     
-    # print
-    # print(docName, action, data.shape)
     
-    # save data in dataset folder (numpy)
-    # np.save(os.path.join('dataset', f'raw_{docName}_{action}'), data)
-
     # create sequence data
     full_seq_data = []
     for seq in range(len(data) - seq_length):
@@ -114,6 +119,7 @@ while camera.isOpened():
     
     
     # shape example -> (270, 90, 100) -> (270개의 시퀀스, 각 시퀀스는 90프레임으로 구성, 각 프레임은 100개의 특성 값)
+    # 시퀀스 300개 이하일 경우 - 데이터 부족하다고 판단, false 출력
     if full_seq_data.shape[0] <= 300:
         print("false")
         # print("false", docName, action, full_seq_data.shape)
@@ -121,7 +127,8 @@ while camera.isOpened():
         print("true")
         # print("true", docName, action, full_seq_data.shape)
     
-    # save data in dataset folder (full_seq_data array)
+    
+    # save sequence data in dataset folder
     np.save(os.path.join('dataset', f'seq_{docName}_{action}'), full_seq_data)
     
     break

@@ -1,5 +1,5 @@
 # motion
-motion password!!!!
+motion password
 
 
 PythonRunner<br>
