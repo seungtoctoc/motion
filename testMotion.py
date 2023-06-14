@@ -16,7 +16,7 @@ target_action = sys.argv[2]
 # setting value
 workTime = 30
 seq_length = 90
-judgment_confidence = 0.97
+judgment_confidence = 0.9
 
 
 # more than threshold in windowSize -> did that action
